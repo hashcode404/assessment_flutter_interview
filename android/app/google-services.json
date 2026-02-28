@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "521338322289",
+    "project_id": "blooddonation-2c67c",
+    "storage_bucket": "blooddonation-2c67c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521338322289:android:0b527ab5a8395440164ad0",
+        "android_client_info": {
+          "package_name": "com.example.assessment_flutter_interview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521338322289-bh6cbne7sdvddmq6af714tp89gn7cpud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC34yamkgFJSPPopyDXSA5sEO2Iebat_00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521338322289-bh6cbne7sdvddmq6af714tp89gn7cpud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "521338322289-d3921ed5jnkcggoaf1eau25dhhaokj2j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bloodDonation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521338322289:android:f2c9b94f8463a7a0164ad0",
+        "android_client_info": {
+          "package_name": "com.hashcode.blood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521338322289-j342kodba90al6i99b84gm3ij4dcunmv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hashcode.blood",
+            "certificate_hash": "1fd716772dbe75bf1e0b82eff1412fc80db792ec"
+          }
+        },
+        {
+          "client_id": "521338322289-bh6cbne7sdvddmq6af714tp89gn7cpud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC34yamkgFJSPPopyDXSA5sEO2Iebat_00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521338322289-bh6cbne7sdvddmq6af714tp89gn7cpud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "521338322289-d3921ed5jnkcggoaf1eau25dhhaokj2j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bloodDonation"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
