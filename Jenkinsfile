@@ -45,7 +45,7 @@ pipeline {
                         credentialsId: 'FIREBASE_ANDROID_APP_ID',
                         variable: 'FIREBASE_ANDROID_APP_ID'
                     )
-                ]) {
+                ]) { 
 
                     sh '''
                     firebase appdistribution:distribute \
