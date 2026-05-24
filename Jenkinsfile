@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+        PATH = "/Users/pranav/flutter/bin:/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+        
     }
 
     stages {
