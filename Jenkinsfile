@@ -40,7 +40,7 @@ pipeline {
                     string(
                         credentialsId: 'FIREBASE_TOKEN',
                         variable: 'FIREBASE_TOKEN'
-                    )
+                    ),
                     string(
                         credentialsId: 'FIREBASE_ANDROID_APP_ID',
                         variable: 'FIREBASE_ANDROID_APP_ID'
