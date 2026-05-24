@@ -32,5 +32,31 @@ pipeline {
                 sh 'flutter build apk --release'
             }
         }
+
+         stage('Upload to Firebase') {
+            steps {
+
+                withCredentials([
+                    string(
+                        credentialsId: 'FIREBASE_TOKEN',
+                        variable: 'FIREBASE_TOKEN'
+                    )
+                    string(
+                        credentialsId: 'FIREBASE_ANDROID_APP_ID',
+                        variable: 'FIREBASE_ANDROID_APP_ID'
+                    )
+                ]) {
+
+                    sh '''
+                    firebase appdistribution:distribute \
+                    build/app/outputs/flutter-apk/app-release.apk \
+                    --app $FIREBASE_ANDROID_APP_ID \
+                    --groups "qa-team" \
+                    --release-notes "$(git log -1 --pretty=%B)" \
+                    --token "$FIREBASE_TOKEN"
+                    '''
+                }
+            }
+        }
     }
 }
