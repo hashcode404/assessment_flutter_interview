@@ -9,7 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'feature/jenkins-setup',
                 url: 'https://github.com/hashcode404/assessment_flutter_interview.git'
             }
         }
