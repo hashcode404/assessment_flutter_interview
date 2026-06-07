@@ -1,42 +1,77 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Dart
+name: Android Dev → Firebase App Distribution
 
 on:
   push:
-    branches: [ "hashcode404-patch-1" ]
-  pull_request:
-    branches: [ "hashcode404-patch-1" ]
+    branches:
+      - hashcode404-patch-1
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-distribute:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.3
+          channel: stable
 
-      # Uncomment this step to verify the use of 'dart format' on each commit.
-      # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
+      - name: Cache Flutter & Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+           ~/.pub-cache
+           ~/.gradle
+           android/.gradle
+           build
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
 
-      # Consider passing '--fatal-infos' for slightly stricter analysis.
-      - name: Analyze project source
-        run: flutter analyze
+      - name: Get latest release
+        run: |
+          npm install -g firebase-tools
+          firebase appdistribution:releases:list \
+            --app ${{ secrets.FIREBASE_ANDROID_APP_ID }}
 
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: flutter test
+      # - name: Decode keystore
+      #   run: |
+      #     mkdir -p android/app/key
+      #     echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/key/upload-keystore.jks
+
+      # - name: Create key.properties
+      #   run: |
+      #     echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+      #     echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+      #     echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+      #     echo "storeFile=key/upload-keystore.jks" >> android/key.properties
+
+      # - name: Flutter pub get
+      #   run: flutter pub get
+
+      # - name: Build dev APK
+        # env:
+        #   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        #   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        #   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        # run: |
+          # flutter build apk 
+
+      # - name: Upload to Firebase App Distribution
+      #   env:
+      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #   run: |
+      #     npm install -g firebase-tools
+      #     firebase appdistribution:distribute \
+      #       build/app/outputs/flutter-apk/app-release.apk \
+      #       --app ${{ secrets.FIREBASE_ANDROID_APP_ID }} \
+      #       --groups ${{ secrets.FIREBASE_TESTER_GROUP }} \
+      #       --release-notes "Automated dev build from GitHub Actions | ${{ github.event.head_commit.message }}"
