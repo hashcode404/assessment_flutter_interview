@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000191">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: dart pub global activate cider" time="0.964443">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: cider bump build" time="0.629751">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: git_add" time="0.012231">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: git_commit" time="78.500671">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
