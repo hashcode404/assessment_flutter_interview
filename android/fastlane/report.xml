@@ -5,27 +5,32 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000191">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000201">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: dart pub global activate cider" time="0.964443">
+      <testcase classname="fastlane.lanes" name="1: dart pub global activate cider" time="0.910982">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: cider bump build" time="0.629751">
+      <testcase classname="fastlane.lanes" name="2: cider bump build" time="0.857281">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: git_add" time="0.012231">
+      <testcase classname="fastlane.lanes" name="3: git_add" time="0.01531">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: git_commit" time="78.500671">
+      <testcase classname="fastlane.lanes" name="4: git_commit" time="0.034533">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: push_to_git_remote" time="1.723357">
         
       </testcase>
     
