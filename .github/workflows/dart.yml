@@ -6,6 +6,9 @@ on:
       - hashcode404-patch-1
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-and-distribute:
     runs-on: ubuntu-latest
