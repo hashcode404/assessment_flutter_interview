@@ -1,0 +1,99 @@
+name: Android Dev → Firebase App Distribution
+
+on:
+  push:
+    branches:
+      - hashcode404-patch-1
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-distribute:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.29.3
+          channel: stable
+
+      - name: Cache Flutter & Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+           ~/.pub-cache
+           ~/.gradle
+           android/.gradle
+           build
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  
+      - name: Increase Build Number & Push
+        working-directory: android
+        run: |
+          bundle install  
+          bundle exec fastlane beta
+
+      # - name: Get latest release
+      #   run: |
+      #     npm install -g firebase-tools
+      #     firebase appdistribution:releases:list \
+      #       --app ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+
+      # - name: Decode keystore
+      #   run: |
+      #     mkdir -p android/app/key
+      #     echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/key/upload-keystore.jks
+
+      # - name: Create key.properties
+      #   run: |
+      #     echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+      #     echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+      #     echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+      #     echo "storeFile=key/upload-keystore.jks" >> android/key.properties
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Build dev APK
+        # env:
+        #   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        #   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        #   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          flutter build apk 
+
+      - name: Upload to Firebase App Distribution
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          npm install -g firebase-tools
+          firebase appdistribution:distribute \
+            build/app/outputs/flutter-apk/app-release.apk \
+            --app ${{ secrets.FIREBASE_ANDROID_APP_ID }} \
+            --groups ${{ secrets.FIREBASE_TESTER_GROUP }} \
+            --release-notes "Automated dev build from GitHub Actions | ${{ github.event.head_commit.message }}"
