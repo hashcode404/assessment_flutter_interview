@@ -36,13 +36,16 @@ jobs:
            build
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
 
-      - name: Install Fastlane gems
-        working-directory: android
-        run: bundle install
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
   
       - name: Increase Build Number & Push
         working-directory: android
-        run: bundle exec fastlane beta
+        run: |
+          bundle install  
+          bundle exec fastlane beta
 
       # - name: Get latest release
       #   run: |
